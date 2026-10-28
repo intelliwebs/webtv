@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WEB TV</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/hGMJ46z9/LOGO-WEB-TV-TRANSPARENTE.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: #08080a;
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Contenedor del Iframe de Apps Script */
+    #app-container {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #app-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Pantalla de Carga (Overlay) */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #08080a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Logo Animado con Efecto Glow */
+    .loader-logo {
+      width: 180px;
+      max-width: 60vw;
+      height: auto;
+      margin-bottom: 25px;
+      animation: pulseGlow 2s infinite ease-in-out;
+      filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.4));
+    }
+
+    /* Spinner Neón de Carga */
+    .spinner {
+      width: 42px;
+      height: 42px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid #e50914;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loader-text {
+      color: #888;
+      font-size: 11px;
+      margin-top: 15px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 15px rgba(229, 9, 20, 0.4));
+      }
+      50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 25px rgba(229, 9, 20, 0.7));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de Carga con el Logo -->
+  <div id="loader">
+    <img src="https://i.postimg.cc/hGMJ46z9/LOGO-WEB-TV-TRANSPARENTE.png" alt="WEB TV Logo" class="loader-logo">
+    <div class="spinner"></div>
+    <div class="loader-text">Cargando WEB TV...</div>
+  </div>
+
+  <!-- Contenedor con Iframe -->
+  <div id="app-container">
+    <iframe 
+      id="app-frame" 
+      src="https://script.google.com/macros/s/AKfycbwHJPvUaGsnr3JJL06sc6y6w7sLXzKSUVm3OgiQzk-b1SceIKH8y-7pTZNb7HN3UdXsbw/exec" 
+      allow="autoplay; encrypted-media; fullscreen; camera; microphone" 
+      allowfullscreen
+      onload="ocultarLoader()">
+    </iframe>
+  </div>
+
+  <script>
+    function ocultarLoader() {
+      var loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('hidden');
+      }
+    }
+
+    // Ocultar por seguridad a los 8 segundos por si el iframe tarda en disparar el evento onload
+    setTimeout(function() {
+      ocultarLoader();
+    }, 8000);
+  </script>
+</body>
+</html>
